@@ -460,6 +460,10 @@ sc_server_connect_to(struct sc_server *server, struct sc_server_info *info)
     sc_socket control_socket = SC_SOCKET_NONE;
     if (!tunnel->forward)
     {
+        printf("Use ADB reverse mode.\n");
+        /**
+         * @brief 连接视频socket
+         */
         video_socket = net_accept_intr(&server->intr, tunnel->server_socket);
         if (video_socket == SC_SOCKET_NONE)
         {
@@ -468,6 +472,10 @@ sc_server_connect_to(struct sc_server *server, struct sc_server_info *info)
 
         if (control)
         {
+            /**
+             * @brief 当客户要求启用输入控制，则尝试连接控制socket
+             *        ??否则不连，等待关闭端口??
+             */
             control_socket =
                 net_accept_intr(&server->intr, tunnel->server_socket);
             if (control_socket == SC_SOCKET_NONE)
@@ -478,6 +486,7 @@ sc_server_connect_to(struct sc_server *server, struct sc_server_info *info)
     }
     else
     {
+        printf("Use ADB forward mode.\n");
         uint32_t tunnel_host = server->params.tunnel_host;
         if (!tunnel_host)
         {
@@ -492,6 +501,9 @@ sc_server_connect_to(struct sc_server *server, struct sc_server_info *info)
 
         unsigned attempts = 100;
         sc_tick delay = SC_TICK_FROM_MS(100);
+        /**
+         * @brief 连接视频socket
+         */
         video_socket = connect_to_server(server, attempts, delay, tunnel_host,
                                          tunnel_port);
         if (video_socket == SC_SOCKET_NONE)
@@ -508,6 +520,10 @@ sc_server_connect_to(struct sc_server *server, struct sc_server_info *info)
             {
                 goto fail;
             }
+            /**
+             * @brief 当客户要求启用输入控制，则尝试连接控制socket
+             *        ??否则不连，等待关闭端口??
+             */
             bool ok = net_connect_intr(&server->intr, control_socket,
                                        tunnel_host, tunnel_port);
             if (!ok)
