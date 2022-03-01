@@ -211,6 +211,18 @@ sc_adb_execute_p(const char *const argv[], unsigned flags, sc_pipe *pout)
         process_flags |= SC_PROCESS_NO_STDERR;
     }
 
+    /**
+     * @brief 打印ADB命令，方便理清APP运行逻辑
+     * @author yb3616<yb3616@126.com>
+     */
+    unsigned int _i = 0;
+    printf("\033[32mADB COMMAND\033[2m: ");
+    while (argv[_i] != NULL)
+    {
+        printf("%s ", argv[_i++]);
+    }
+    printf("\033[0m\n");
+
     sc_pid pid;
     enum sc_process_result r =
         sc_process_execute_p(argv, &pid, process_flags, NULL, pout, NULL);
