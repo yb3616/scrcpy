@@ -6,7 +6,6 @@
 #include <stdbool.h>
 #include "options.h"
 
-bool
-scrcpy(struct scrcpy_options *options);
+bool scrcpy(struct scrcpy_options *options);
 
 #endif
