@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <libavformat/avformat.h>
 #ifdef HAVE_V4L2
-# include <libavdevice/avdevice.h>
+#include <libavdevice/avdevice.h>
 #endif
 #define SDL_MAIN_HANDLED // avoid link error on Linux Windows Subsystem
 #include <SDL2/SDL.h>
@@ -17,8 +17,8 @@
 #include "util/log.h"
 #include "version.h"
 
-int
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 #ifdef __WINDOWS__
     // disable buffering, we want logs immediately
     // even line buffering (setvbuf() with mode _IOLBF) is not sufficient
@@ -39,18 +39,21 @@ main(int argc, char *argv[]) {
     args.opts.log_level = SC_LOG_LEVEL_DEBUG;
 #endif
 
-    if (!scrcpy_parse_args(&args, argc, argv)) {
+    if (!scrcpy_parse_args(&args, argc, argv))
+    {
         return 1;
     }
 
     sc_set_log_level(args.opts.log_level);
 
-    if (args.help) {
+    if (args.help)
+    {
         scrcpy_print_usage(argv[0]);
         return 0;
     }
 
-    if (args.version) {
+    if (args.version)
+    {
         scrcpy_print_version();
         return 0;
     }
@@ -60,12 +63,14 @@ main(int argc, char *argv[]) {
 #endif
 
 #ifdef HAVE_V4L2
-    if (args.opts.v4l2_device) {
+    if (args.opts.v4l2_device)
+    {
         avdevice_register_all();
     }
 #endif
 
-    if (avformat_network_init()) {
+    if (avformat_network_init())
+    {
         return 1;
     }
 
