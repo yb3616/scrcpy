@@ -216,7 +216,7 @@ sc_adb_execute_p(const char *const argv[], unsigned flags, sc_pipe *pout)
      * @author yb3616<yb3616@126.com>
      */
     unsigned int _i = 0;
-    printf("\033[32mADB COMMAND\033[2m: ");
+    printf("\033[32mADB COMMAND:\033[2m ");
     while (argv[_i] != NULL)
     {
         printf("%s ", argv[_i++]);
